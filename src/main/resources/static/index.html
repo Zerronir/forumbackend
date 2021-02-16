@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>demo jwt</h1>
+
+
+<script>
+
+    const login = async () => {
+
+        let body = {
+            "username": "bill",
+            "password": "gates"
+        };
+
+        const res = await fetch("/login", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        console.log(data);
+        localStorage.setItem("token", data.token);
+    };
+
+    const doRequest = async () => {
+
+        const res = await fetch("/private/test", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+    }
+
+</script>
+
+
+<button onclick="login()">Login</button>
+<button onclick="doRequest()">Request</button>
+</body>
+</html>
