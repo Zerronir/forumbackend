@@ -15,7 +15,7 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
-    public Optional<User> doLogin(String email, String password) throws Exception {
+    public User doLogin(String email, String password) {
         return userRepo.getUserByEmailAndPassword(email, password);
     }
 

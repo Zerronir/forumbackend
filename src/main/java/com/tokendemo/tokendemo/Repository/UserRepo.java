@@ -10,7 +10,7 @@ public interface UserRepo {
 
     User registerUser(User user) throws Exception;
 
-    Optional<User> getUserByEmailAndPassword(String email, String password) throws Exception;
+    User getUserByEmailAndPassword(String email, String password);
 
     boolean deleteUser(User user) throws Exception;
 

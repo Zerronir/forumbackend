@@ -21,7 +21,7 @@ public class UserRepoAcces implements UserRepo {
     }
 
     @Override
-    public Optional<User> getUserByEmailAndPassword(String email, String password) throws Exception {
+    public User getUserByEmailAndPassword(String email, String password) {
 
         query = "SELECT * FROM users WHERE userEmail = ? AND userPassword = ?";
 
@@ -47,7 +47,7 @@ public class UserRepoAcces implements UserRepo {
                 });
 
         // Devolvemos un Optional nulo donde le pasamos el objeto de tipo Person
-        return Optional.ofNullable(user);
+        return null;
     }
 
     @Override

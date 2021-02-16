@@ -36,7 +36,7 @@ public class LoginController {
         String username = map.get("username");
         String password = map.get("password");
 
-        if(userRepoAcces.getUserByEmailAndPassword(username, password).isEmpty()) {
+        if(userRepoAcces.getUserByEmailAndPassword(username, password) == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
