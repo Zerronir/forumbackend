@@ -1,13 +1,13 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Controllers;
 
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowire;
+import com.tokendemo.tokendemo.Service.LoginService;
+import com.tokendemo.tokendemo.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;

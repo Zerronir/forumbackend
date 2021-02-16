@@ -1,4 +1,4 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Service;
 
 import org.springframework.stereotype.Service;
 

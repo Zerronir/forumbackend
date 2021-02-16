@@ -8,6 +8,10 @@
 
 <h1>demo jwt</h1>
 
+<div>
+    <h2><span id="greeting"></span> <span id="name"></span> <span id="surname"></span></h2>
+</div>
+
 
 <script>
 
@@ -29,12 +33,15 @@
         const data = await res.json();
         console.log(data);
         localStorage.setItem("token", data.token);
+
+        document.querySelector("#greeting").innerHTML = "Hola,";
+        document.querySelector("#name").innerHTML = body.username;
+        document.querySelector("#surname").innerHTML = body.password;
     };
 
     const doRequest = async () => {
 
         const res = await fetch("/private/test", {
-            method: 'post',
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': 'Bearer ' + localStorage.getItem('token')

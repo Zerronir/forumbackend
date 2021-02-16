@@ -1,8 +1,8 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Config;
 
+import com.tokendemo.tokendemo.Service.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 

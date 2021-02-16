@@ -1,11 +1,12 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Service
 public class TokenInterceptor implements AsyncHandlerInterceptor {
 
     @Autowired

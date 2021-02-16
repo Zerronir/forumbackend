@@ -1,4 +1,4 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,7 +12,7 @@ public class TokenService {
     @Value("${token.secret}")
     String tokenSecret;
 
-    @Value("${token.expiration.time")
+    @Value("${token.expiration.time}")
     int expiration;
 
 

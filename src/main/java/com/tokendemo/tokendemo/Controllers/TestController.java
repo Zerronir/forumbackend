@@ -1,4 +1,4 @@
-package com.tokendemo.tokendemo;
+package com.tokendemo.tokendemo.Controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
