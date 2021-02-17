@@ -30,7 +30,7 @@ public class CategoryController {
 
     @GetMapping("/categories/{slug}")
     public ResponseEntity<String> getCategory(@PathVariable String slug) {
-        Category category = categoryRepository.findCategoryBySlug(slug);
+        Category category = categoryRepository.getCategoryBySlugEquals(slug);
         return new ResponseEntity<>(gson.toJson(category), HttpStatus.OK);
     }
 

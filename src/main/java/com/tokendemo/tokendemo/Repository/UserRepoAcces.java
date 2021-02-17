@@ -37,7 +37,7 @@ public class UserRepoAcces implements UserRepo {
                     String avatar = resultSet.getString("avatar");
                     String role = resultSet.getString("userrole");
 
-                    finalUser.setUserId(userId);
+                    finalUser.set_id(userId);
                     finalUser.setEmail(userEmail);
                     finalUser.setName(userName);
                     finalUser.setPassword(userPassword);

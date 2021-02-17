@@ -1,16 +1,21 @@
 package com.tokendemo.tokendemo.Entities;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("users")
 public class User {
 
     String name, email, password, role, avatar;
 
+    @Id
     int _id;
 
-    public int getUserId() {
+    public int get_id() {
         return _id;
     }
 
-    public void setUserId(int _id) {
+    public void set_id(int _id) {
         this._id = _id;
     }
 
