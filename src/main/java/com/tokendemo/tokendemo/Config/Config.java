@@ -13,6 +13,7 @@ public class Config implements WebMvcConfigurer {
     TokenInterceptor tokenInterceptor;
 
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)

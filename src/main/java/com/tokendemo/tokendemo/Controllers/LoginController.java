@@ -46,7 +46,6 @@ public class LoginController {
         responseMap.put("token", token);
 
         return new ResponseEntity<>(gson.toJson(responseMap), HttpStatus.ACCEPTED);
-
     }
 
 }
