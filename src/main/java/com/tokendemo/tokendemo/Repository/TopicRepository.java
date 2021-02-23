@@ -1,9 +1,9 @@
 package com.tokendemo.tokendemo.Repository;
 
-import com.tokendemo.tokendemo.Entities.Category;
+import com.tokendemo.tokendemo.Entities.Topic;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<Category, Integer> {
+public interface TopicRepository extends CrudRepository<Topic, Integer> {
 }
