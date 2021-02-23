@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,8 +33,6 @@ public class LoginController {
     @Autowired
     UserRepoAcces userRepoAcces;
 
-    UserRepository userRep;
-
     @Autowired
     TokenService tokenService;
 
@@ -42,19 +43,65 @@ public class LoginController {
         String username = map.get("username");
         String password = map.get("password");
 
-        if(userRep.findByEmailEqualsAndPasswordEquals(username, password) == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if(userRepoAcces.findByEmailEqualsAndPasswordEquals(username, hashPass(password)) == null) {
+            return new ResponseEntity<>(gson.toJson("Error, no user found"), HttpStatus.UNAUTHORIZED);
         } else {
 
-            User user = userRep.findByEmailEqualsAndPasswordEquals(username, password);
+            User user = userRepoAcces.findByEmailEqualsAndPasswordEquals(username, hashPass(password));
 
             String token = tokenService.newToken(user.getEmail());
 
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("token", token);
 
-            return new ResponseEntity<>(gson.toJson(responseMap), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(gson.toJson(responseMap) + gson.toJson(user), HttpStatus.ACCEPTED);
         }
+
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody String payload) throws SQLException {
+
+        Map<String, String> formMap = gson.fromJson(payload, HashMap.class);
+
+        String name = formMap.get("name");
+        String email = formMap.get("email");
+        String pw = formMap.get("password");
+        String role = formMap.get("role");
+
+        try {
+            // Create the user to save in database
+            User u = new User();
+            u.setRole(role);
+            u.setPassword(hashPass(pw));
+            u.setEmail(email);
+            u.setName(name);
+
+            userRepoAcces.save(u);
+
+            return new ResponseEntity<>(gson.toJson("done"), HttpStatus.CREATED);
+
+        }catch (NoSuchAlgorithmException ex) {
+            return new ResponseEntity<>(gson.toJson(ex.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
+
+    private String hashPass(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        md.update(password.getBytes());
+
+        byte[] digest = md.digest();
+
+        StringBuffer hexString = new StringBuffer();
+
+        for (int i = 0; i < digest.length; i++) {
+            hexString.append(Integer.toHexString(0xFF & digest[i]));
+        }
+        return hexString.toString();
 
     }
 
