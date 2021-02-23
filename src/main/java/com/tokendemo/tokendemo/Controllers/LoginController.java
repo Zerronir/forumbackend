@@ -40,7 +40,7 @@ public class LoginController {
     public ResponseEntity<String> login(@RequestBody String payload) throws Exception {
         Map<String, String> map = gson.fromJson(payload, HashMap.class);
 
-        String username = map.get("username");
+        String username = map.get("email");
         String password = map.get("password");
 
         if(userRepoAcces.findByEmailEqualsAndPasswordEquals(username, hashPass(password)) == null) {
@@ -54,7 +54,10 @@ public class LoginController {
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("token", token);
 
-            return new ResponseEntity<>(gson.toJson(responseMap) + gson.toJson(user), HttpStatus.ACCEPTED);
+            Map<String, User> userMap = new HashMap<>();
+            userMap.put("user", user);
+
+            return new ResponseEntity<>(gson.toJson(responseMap) + gson.toJson(userMap), HttpStatus.ACCEPTED);
         }
 
     }
