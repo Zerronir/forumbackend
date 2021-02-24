@@ -57,7 +57,7 @@ public class LoginController {
             Map<String, User> userMap = new HashMap<>();
             userMap.put("user", user);
 
-            return new ResponseEntity<>(gson.toJson(responseMap) + gson.toJson(userMap), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(gson.toJson(responseMap) + " " + gson.toJson(userMap), HttpStatus.OK);
         }
 
     }

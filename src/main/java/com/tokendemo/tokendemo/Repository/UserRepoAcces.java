@@ -64,6 +64,7 @@ public class UserRepoAcces implements UserRepo {
     public User findByEmailEqualsAndPasswordEquals(String email, String password) {
         User u = new User();
 
+        // Do the query and map the results binding with user's params
         jdbcTemplate.query("SELECT * FROM users WHERE email = ? AND password = ?",
                     new Object[]{email, password},
                     resultSet -> {
