@@ -3,9 +3,11 @@ package com.tokendemo.tokendemo.Service;
 import com.tokendemo.tokendemo.Entities.Category;
 import com.tokendemo.tokendemo.Repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +18,22 @@ public class CategoryService implements CategoryRepository {
     @Autowired
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
+    CategoryRepository catRepo;
+
     @Override
     public <S extends Category> S save(S entity) {
-        return null;
+
+        try {
+            jdbcTemplate.update(
+                    "INSERT INTO category (color, title, slug, description) VALUES (?, ?, ?, ?)",
+                    entity.getColor(),
+                    entity.getTitle(),
+                    entity.getSlug(),
+                    entity.getDescription());
+            return entity;
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     @Override
@@ -92,19 +107,46 @@ public class CategoryService implements CategoryRepository {
     // CUSTOM METHODS
     public int getCategoryBySlugEquals(String slug)  {
 
-        int catId = 0;
+        Category cat = new Category();
 
-        List<Map<String, Object>> cat = jdbcTemplate.queryForList("SELECT _id FROM category WHERE slug = ?", slug);
+        List<Map<String, Object>> catQuery = jdbcTemplate.queryForList("SELECT * FROM category WHERE slug = ?", slug);
 
-        for (Map row : cat) {
-            catId = (Integer) row.get("_id");
-            return catId;
+        for (Map row : catQuery) {
+            cat.set_id((Integer) row.get("_id"));
+            return cat.get_id();
         }
 
 
-        return catId;
+        return cat.get_id();
     }
 
+    public Category getBySlug(String slug) {
+        Category cat = new Category();
 
+        List<Map<String, Object>> catQuery = jdbcTemplate.queryForList("SELECT * FROM category WHERE slug = ?", slug);
+
+        for (Map row : catQuery) {
+            cat.set_id((Integer) row.get("_id"));
+            cat.setTitle("title");
+            cat.setSlug(slug);
+            cat.setDescription("description");
+            cat.setColor("color");
+            return cat;
+        }
+
+
+        return null;
+    }
+
+    // Delete category
+    public boolean deleteBySlugEquals(String slug) {
+
+        try {
+            jdbcTemplate.update("DELETE FROM category WHERE slug = ?", slug);
+            return true;
+        }catch (Exception exception) {
+            return false;
+        }
+    }
 
 }

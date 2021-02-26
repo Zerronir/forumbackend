@@ -4,6 +4,7 @@ import com.tokendemo.tokendemo.Entities.Category;
 import com.tokendemo.tokendemo.Entities.Topic;
 import com.tokendemo.tokendemo.Repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;

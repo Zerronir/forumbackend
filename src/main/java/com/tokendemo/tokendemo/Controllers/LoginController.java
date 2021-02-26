@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -36,6 +38,9 @@ public class LoginController {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    HttpSession session;
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody String payload) throws Exception {
         Map<String, String> map = gson.fromJson(payload, HashMap.class);
@@ -50,14 +55,13 @@ public class LoginController {
             User user = userRepoAcces.findByEmailEqualsAndPasswordEquals(username, hashPass(password));
 
             String token = tokenService.newToken(user.getEmail());
+            session.setAttribute("user", user);
 
-            Map<String, String> responseMap = new HashMap<>();
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("token", token);
+            responseMap.put("user", user);
 
-            Map<String, User> userMap = new HashMap<>();
-            userMap.put("user", user);
-
-            return new ResponseEntity<>(gson.toJson(responseMap) + " " + gson.toJson(userMap), HttpStatus.OK);
+            return new ResponseEntity<>(gson.toJson(responseMap), HttpStatus.OK);
         }
 
     }
@@ -89,6 +93,17 @@ public class LoginController {
         }
 
 
+    }
+
+    @GetMapping("/getprofile")
+    public ResponseEntity<String> getProfile() {
+        if(session.getAttribute("user") != null) {
+            Map<String, Object> user = new HashMap<>();
+            user.put("user", session.getAttribute("user"));
+            return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private String hashPass(String password) throws NoSuchAlgorithmException {

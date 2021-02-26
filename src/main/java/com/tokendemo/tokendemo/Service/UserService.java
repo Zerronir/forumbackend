@@ -18,5 +18,4 @@ public class UserService {
     public User doLogin(String email, String password) {
         return userRepo.getUserByEmailAndPassword(email, password);
     }
-
 }
